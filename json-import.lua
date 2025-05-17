@@ -1,3 +1,5 @@
+-- Copyright (c) 2022-2025 Alexander Graf
+
 Importer {
   version       = 1.00,
   format        = 'JSON',
@@ -123,7 +125,7 @@ local function parse_string(str, pos, val)
       s = 1
     elseif c <= 0xef then -- 0b1110xxxx: 3-byte glyph
       s = 2
-    end -- 0b11110xxx: 4-byte glyph
+    end                   -- 0b11110xxx: 4-byte glyph
     -- check continuation bytes
     for i = 1, s do
       c = str:sub(pos + i, pos + i):byte()
@@ -258,13 +260,14 @@ local validators = {
 
 -- import
 function ReadTransactions(account)
-
   -- read file
   local data = assert(io.read("*all"))
 
   -- parse json
   local status, result = pcall(parse_json, data, 1)
-  if not status then
+  if not result then
+    return 'Invalid JSON: unknown error'
+  elseif not status then
     local err = 'Invalid JSON: ' .. (result.msg or result)
     if result.token then
       err = err .. string.format(' %q', result.token)
@@ -300,7 +303,5 @@ function ReadTransactions(account)
       end
     end
   end
-
   return trans
-
 end

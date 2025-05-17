@@ -1,3 +1,5 @@
+-- Copyright (c) 2022-2025 Alexander Graf
+
 Exporter {
   version       = 1.00,
   format        = 'JSON',
@@ -82,7 +84,7 @@ function WriteHeader(account, startDate, endDate, transactionCount)
   "comment": "%s: %s - %s (%d transactions)",
   "account": %s,
   "transactions": [
-]] ,
+]],
     account.name,
     MM.localizeDate(startDate), MM.localizeDate(endDate),
     transactionCount, format_table(account, '  ')
